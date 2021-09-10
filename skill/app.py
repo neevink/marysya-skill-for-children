@@ -33,7 +33,8 @@ def prepare_paths(original: list) -> dict:
             'name': element['name'],
             'margin_horizontal': element['margin_horizontal'],
             'margin_vertical': element['margin_vertical'],
-            'path': path
+            'path': path,
+            'id': int(element['id'])
         }
     return ans
 
@@ -63,6 +64,9 @@ def create_app() -> web.Application:
     # Часто используемые между запросами переменные
     app['mapper'] = NumberMapper()
     app['next-phrases'] = set(app['strings']['next'])
+    app['random'] = set(app['strings']['random'])
+    app['want-select'] = set(app['strings']['want-select'])
+    app['figures'] = ''.join(['{} - {}, '.format(e['id'], e['name']) for e in list(app['paths'].values())])
 
     return app
 

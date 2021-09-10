@@ -7,4 +7,3 @@ class State(Enum):
     PREPARING = 3  # Типо отступи n клеток и поставь точку
     DRAWING = 4
     FINISH = 5  # Рисунок нарисован
-

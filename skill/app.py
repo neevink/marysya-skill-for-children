@@ -5,6 +5,8 @@ from aiohttp import web
 from handlers.options import handle_options
 from handlers.skill import handle_skill
 
+from skill.entities.number_mapper import NumberMapper
+
 from skill.entities.path import Direction
 
 
@@ -57,6 +59,10 @@ def create_app() -> web.Application:
     paths_path = os.path.join(os.path.dirname(__file__), 'resources', 'paths.yml')
     with open(paths_path, 'r', encoding='utf8') as paths:
         app['paths'] = prepare_paths(yaml.safe_load(paths)['paths'])
+
+    # Часто используемые между запросами переменные
+    app['mapper'] = NumberMapper()
+    app['next-phrases'] = set(app['strings']['next'])
 
     return app
 

@@ -3,7 +3,9 @@ import random
 from aiohttp.web import Request, Response, json_response
 from skill.entities.skill_response import SkillResponse
 from skill.entities.state import State
-from skill.entities.number_mapper import NumberMapper
+
+from skill.helpers import cells_count
+
 from random import choice
 
 
@@ -11,81 +13,83 @@ async def handle_skill(request: Request) -> Response:
     """
     Запрос к скиллу
     """
-    # http://localhost:7845/skill
-    print(await request.text())
-
-    mapper = NumberMapper()
-
-    request_json = await request.json()
-
-    resp = SkillResponse(request_json)
+    resp = SkillResponse(await request.json())
 
     if resp.is_start:
         # Если начало
-        resp.answer = request.app['strings']['hello']
+        resp.answer = request.app['strings']['hello'][0]
         resp.state = State.START
     elif resp.state == State.START:
         # Парсим ответ, что хочет пользователь
         if 'выбрать' in resp.get_user_input():
-            resp.answer = 'Выбери число от 1 до {}'.format(len(request.app['paths']))
+            resp.answer = request.app['strings']['select'][0].format(len(request.app['paths']))
             resp.state = State.SELECT_FIGURE
         elif 'случайная' in resp.get_user_input():
             s = set(range(1, len(request.app['paths']) + 1)) - set(resp.passed)
-            id = choice(list(s))
-            print(id)
-            resp.answer = 'Выбрана ' + str(id) + ' это ' + request.app['paths'][id]['name']
+            path_id = choice(list(s))
+            resp.answer = request.app['strings']['selected'][0].format(
+                path_id,
+                request.app['paths'][path_id]['name']
+            )
 
             resp.state = State.PREPARING
-            resp.current_path = id
+            resp.current_path = path_id
             resp.current_step = 0
         else:
-            resp.answer = 'Я тебя не поняла'
+            resp.answer = request.app['strings']['repeat'][0]
 
     elif resp.state == State.SELECT_FIGURE:
         # Если мы решили выбрать фигуру
         tokens = resp.get_user_input()
         for token in tokens:
-            if mapper[token] is not None:
-                id = mapper[token]
-                resp.answer = 'Выбрано ' + str(id) + request.app['paths'][id]['name'] + ' скажи "дальше", когда буш готов'
+            path_id = request.app['mapper'][token]
+            if path_id is not None:
+                resp.answer = request.app['strings']['selected'][0].format(path_id, request.app['paths'][path_id]['name'])
 
                 resp.state = State.PREPARING
-                resp.current_path = id
+                resp.current_path = path_id
                 resp.current_step = -1
                 return json_response(resp.get_json_response(), headers=request.app['cors'])
-        resp.answer = 'Просто скажи число'
+        resp.answer = 'Просто назови число'
 
     elif resp.state == State.PREPARING:
-        if 'дальше' in resp.get_user_input():
-            resp.answer = 'Отлично, теперь отступи на {} клетки вниз и на {} вправо'.format(
-                request.app['paths'][resp.current_path]['margin_vertical'],
-                request.app['paths'][resp.current_path]['margin_horizontal']
+        if len(request.app['next-phrases'] & set(resp.get_user_input())) > 0:
+            resp.answer = request.app['strings']['prepare'][0].format(
+                cells_count(request.app['paths'][resp.current_path]['margin_vertical']),
+                cells_count(request.app['paths'][resp.current_path]['margin_horizontal'])
             )
 
             resp.state = State.DRAWING
             resp.current_step = 0
         else:
-            resp.answer = 'Если готов, то скажи "дальше"'
+            resp.answer = choice(request.app['strings']['say-next'])
 
     elif resp.state == State.DRAWING:
-        if 'дальше' in resp.get_user_input():
+        if len(request.app['next-phrases'] & set(resp.get_user_input())) > 0:
             if resp.current_step >= len(request.app['paths'][resp.current_path]['path']):
-                resp.answer = 'Поздравляю, ты нарисовал рисунок. Что у тебя получилось?'
+                resp.answer = choice(request.app['strings']['congrats'])
                 resp.state = State.FINISH
                 resp.passed.append(resp.current_path)
+
+                if len(resp.passed) >= len(request.app['paths']):
+                    # Если нарисованы все рисунки, то обнуляем нарисованные рисунки
+                    resp.passed = [resp.current_path]
+
             else:
                 step = resp.current_step
-                print(step)
-                print(request.app['paths'][resp.current_path]['path'])
                 s = request.app['paths'][resp.current_path]['path'][step]
-                resp.answer = f'Нарисуй линию на {s[1]} клеток {s[0]}'
+                resp.answer = choice(request.app['strings']['draw']).format(
+                    cells_count(s[1]),
+                    s[0].value
+                )
                 resp.current_step = step + 1
         else:
-            resp.answer = 'Если готов, то скажи "дальше"'
+            resp.answer = choice(request.app['strings']['say-next'])
 
     elif resp.state == State.FINISH:
-        resp.answer = 'Красава, ты нарисовал хрегь'
+        # Тут проверка, что ребёнок угадал фигуру и снова запрос на рисование рисунка
+        resp.answer = 'Молодец'
     else:
-        resp.answer = 'Продолжение...'
+        resp.answer = request.app['strings']['undefined']
 
     return json_response(resp.get_json_response(), headers=request.app['cors'])

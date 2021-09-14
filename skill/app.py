@@ -4,6 +4,7 @@ import yaml
 from aiohttp import web
 from handlers.options import handle_options
 from handlers.skill import handle_skill
+from handlers.test import handle_tests
 
 from skill.entities.number_mapper import NumberMapper
 from skill.entities.path import Direction
@@ -40,7 +41,8 @@ def create_app() -> web.Application:
     app = web.Application(middlewares=[error_middleware])
     app.add_routes([
         web.options('/skill', handle_options),
-        web.post('/skill', handle_skill)
+        web.post('/skill', handle_skill),
+        web.get('/test', handle_tests)
     ])
 
     app['cors'] = {

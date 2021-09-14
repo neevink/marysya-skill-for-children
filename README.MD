@@ -7,6 +7,10 @@
 ssh -i "marusya-skill.pem" ubuntu@ec2-13-59-178-53.us-east-2.compute.amazonaws.com
 ```
 
+```shell
+source ./venv/bin/activate
+```
+
 Чтобы установить `nginx` на машину, введите в консоль:
 ```shell
 sudo apt update

@@ -4,10 +4,10 @@
 
 Чтобы подключиться к виртуальной машине, введите в консоль:
 ```shell
-sudo ssh -i ./key.pem ubuntu@ec2-18-219-147-206.us-east-2.compute.amazonaws.com
+ssh -i "marusya-skill.pem" ubuntu@ec2-13-59-178-53.us-east-2.compute.amazonaws.com
 ```
 
-Чтобы установить `nginx`, введите в консоль:
+Чтобы установить `nginx` на машину, введите в консоль:
 ```shell
 sudo apt update
 sudo apt install -y nginx

@@ -4,7 +4,7 @@
 
 Чтобы подключиться к виртуальной машине, введите в консоль:
 ```shell
-sudo ssh -i ./key.pem ubuntu@89.208.86.255
+sudo ssh -i ./key.pem ubuntu@ec2-18-219-147-206.us-east-2.compute.amazonaws.com
 ```
 
 Чтобы установить `nginx`, введите в консоль:

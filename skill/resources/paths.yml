@@ -1,8 +1,8 @@
 paths:
   - name: черепашка
     id: 1
-    margin_horizontal: 5
-    margin_vertical: 5
+    margin_horizontal: 1
+    margin_vertical: 1
     path:
       - RIGHT 2
       - DOWN 4
@@ -26,20 +26,135 @@ paths:
       - UP 3
       - LEFT 1
       - UP 2
-  - name: квадрат
+  - name: сердечко
     id: 2
     margin_horizontal: 4
-    margin_vertical: 4
+    margin_vertical: 1
     path:
-      - RIGHT 4
-      - DOWN 4
-      - LEFT 4
-      - UP 4
-  - name: чашка
+      - DOWN 1
+      - RIGHT 1
+      - DOWN 1
+      - RIGHT 1
+      - UP 1
+      - RIGHT 1
+      - UP 1
+      - RIGHT 2
+      - DOWN 1
+      - RIGHT 1
+      - DOWN 3
+      - LEFT 1
+      - DOWN 1
+      - LEFT 1
+      - DOWN 1
+      - LEFT 1
+      - DOWN 1
+      - LEFT 1
+      - DOWN 1
+      - LEFT 1
+      - UP 1
+      - LEFT 1
+      - UP 1
+      - LEFT 1
+      - UP 1
+      - LEFT 1
+      - UP 1
+      - LEFT 1
+      - UP 3
+      - RIGHT 1
+      - UP 1
+      - RIGHT 2
+  - name: кораблик
     id: 3
-    margin_horizontal: 3
-    margin_vertical: 3
+    margin_horizontal: 6
+    margin_vertical: 1
     path:
-      - DOWN 4
-      - LEFT 4
+      - RIGHT 1
+      - DOWN 1
+      - RIGHT 1
+      - DOWN 1
+      - RIGHT 1
+      - DOWN 1
+      - RIGHT 1
+      - DOWN 3
+      - LEFT 3
+      - DOWN 1
+      - RIGHT 5
+      - DOWN 1
+      - LEFT 1
+      - DOWN 1
+      - LEFT 1
+      - DOWN 1
+      - LEFT 7
+      - UP 1
+      - LEFT 1
+      - UP 1
+      - LEFT 1
+      - UP 1
+      - RIGHT 5
+      - UP 7
+  - name: котик
+    id: 4
+    margin_horizontal: 1
+    margin_vertical: 2
+    path:
+      - RIGHT 1
+      - DOWN 1
+      - RIGHT 2
+      - UP 1
+      - RIGHT 1
+      - DOWN 2
+      - RIGHT 5
+      - UP 2
+      - LEFT 1
+      - UP 1
+      - RIGHT 2
+      - DOWN 9
+      - LEFT 1
+      - UP 2
+      - LEFT 1
+      - DOWN 2
+      - LEFT 1
+      - UP 3
+      - LEFT 3
+      - DOWN 3
+      - LEFT 1
+      - UP 2
+      - LEFT 1
+      - DOWN 2
+      - LEFT 1
       - UP 4
+      - LEFT 1
+      - UP 4
+  - name: ракета
+    id: 5
+    margin_horizontal: 1
+    margin_vertical: 5
+    path:
+      - RIGHT 2
+      - DOWN 2
+      - RIGHT 1
+      - DOWN 2
+      - RIGHT 1
+      - DOWN 9
+      - RIGHT 1
+      - DOWN 1
+      - RIGHT 1
+      - DOWN 5
+      - LEFT 2
+      - UP 3
+      - LEFT 2
+      - DOWN 3
+      - LEFT 2
+      - UP 3
+      - LEFT 2
+      - DOWN 3
+      - LEFT 2
+      - UP 5
+      - RIGHT 1
+      - UP 1
+      - RIGHT 1
+      - UP 9
+      - RIGHT 1
+      - UP 2
+      - RIGHT 1
+      - UP 2

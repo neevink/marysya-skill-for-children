@@ -1,24 +1,6 @@
-# Скилл маруси для детей
+# ”Graphic dictation by cells” skill for voice assistant Marusya
 
-## Деплой
+## Overview
 
-Чтобы подключиться к виртуальной машине, введите в консоль:
-```shell
-ssh -i "marusya-skill.pem" ubuntu@ec2-13-59-178-53.us-east-2.compute.amazonaws.com
-```
-
-```shell
-source ./venv/bin/activate
-```
-
-Чтобы установить `nginx` на машину, введите в консоль:
-```shell
-sudo apt update
-sudo apt install -y nginx
-```
-
-Перейти в настройки `nginx`:
-```shell
-sudo nano /etc/nginx/nginx.conf
-```
-
+”Graphic dictation by cells” is an education game for children for voice assistant Marusya (Alexa like).
+This game teaches yong persons to navigate on a sheet of paper, develops visual and auditory perception.
